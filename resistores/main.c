@@ -62,6 +62,30 @@ void inic_header(Estruturadoheader* Header)
     Header->iniciodeheader = NULL;   //inicializando
     Header->fimdeheader = NULL;      //inicializando
 }
+
+void insere_resistor(Resistencia**Arvore, float valor_resistencia ,int quantidade_resistores)
+{
+    if(*Arvore == NULL)
+    {
+        Resistencia* ResistenciaN = (Resistencia*) malloc(sizeof(Resistencia));
+        ResistenciaN->esquerda = NULL;
+        ResistenciaN->direita = NULL;
+        ResistenciaN->valor_resistencia = valor_resistencia;
+        ResistenciaN->quantidade_resistores=quantidade_resistores;
+        *Arvore=ResistenciaN;
+    }
+    else
+    {
+        if(valor_resistencia < (*Arvore)->valor_resistencia)
+            insere_resistor(&(*Arvore)->esquerda,valor_resistencia,quantidade_resistores);
+
+        if(valor_resistencia > (*Arvore)->valor_resistencia)
+            insere_resistor(&(*Arvore)->direita, valor_resistencia,quantidade_resistores);
+
+        if(valor_resistencia == (*Arvore)->valor_resistencia)
+            (*Arvore)->quantidade_resistores+=quantidade_resistores;
+    }
+}
 /*static void helloWorld (GtkWidget *wid, GtkWidget *win)
 {
   GtkWidget *dialog = NULL;
